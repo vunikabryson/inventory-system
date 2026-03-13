@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | Inventory System</title>
+<style>
+  body { font-family: Arial, sans-serif; background:#f4f6f8; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
+  .login-box { background:#fff; padding:30px; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.1); width:300px; }
+  h2 { text-align:center; margin-bottom:20px; }
+  input { width:100%; padding:10px; margin:10px 0; border-radius:6px; border:1px solid #ccc; }
+  button { width:100%; padding:10px; background:#4CAF50; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600; }
+  button:hover { background:#43a047; }
+  .error { color:red; font-size:14px; text-align:center; }
+</style>
+</head>
+<body>
+
+<div class="login-box">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <div class="error" id="errorMsg"></div>
+  <button onclick="login()">Login</button>
+</div>
+
+<script>
+  // Simple hardcoded credentials for demo
+  const users = [
+    { username: "admin", password: "admin123" },
+    { username: "user", password: "user123" }
+  ];
+
+  function login() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+
+    const user = users.find(u => u.username === username && u.password === password);
+    if(user) {
+      localStorage.setItem("loggedInUser", username);
+      window.location.href = "dashboard.html"; // redirect to dashboard
+    } else {
+      document.getElementById("errorMsg").textContent = "Invalid username or password";
+    }
+  }
+
+  // If already logged in, redirect to dashboard
+  if(localStorage.getItem("loggedInUser")) {
+    window.location.href = "dashboard.html";
+  }
+</script>
+
+</body>
+</html>

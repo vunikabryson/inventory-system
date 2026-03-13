@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice | Inventory System</title>
+
+<style>
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  margin:0;
+  background:#f4f6f8;
+  color:#333;
+}
+
+/* TOP HEADER */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#fff;
+  padding:15px 20px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+.logo{height:40px;}
+.company-name{font-weight:bold;font-size:20px;}
+
+/* NAV BUTTONS */
+.nav-buttons{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin:20px;
+  flex-wrap:wrap;
+}
+.nav-buttons button{
+  background:#412594;
+  color:white;
+  border:none;
+  padding:10px 18px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* CONTENT */
+.content{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+/* INVOICE HEADER */
+.invoice-header{
+  display:flex;
+  justify-content:space-between;
+  background:white;
+  padding:20px;
+  border-radius:8px;
+  margin-bottom:20px;
+}
+.invoice-header img{height:60px;}
+
+/* FORM */
+.invoice-form{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  background:white;
+  padding:20px;
+  border-radius:8px;
+  margin-bottom:20px;
+}
+.invoice-form select,
+.invoice-form input{
+  padding:10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  flex:1;
+  min-width:150px;
+}
+.invoice-form button{
+  background:#412594;
+  color:white;
+  border:none;
+  padding:10px 18px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* TABLE */
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+  border-radius:8px;
+  overflow:hidden;
+}
+th,td{
+  padding:12px;
+  border-bottom:1px solid #eee;
+  text-align:center;
+}
+th{
+  background:#412594;
+  color:white;
+}
+.delete-btn{
+  background:#e53935;
+  color:white;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* TOTAL */
+.total{
+  margin-top:15px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* ACTION BUTTONS */
+.actions{
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.actions button{
+  background:#412594;
+  color:white;
+  border:none;
+  padding:10px 18px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+  .invoice-form{flex-direction:column;}
+  .invoice-header{flex-direction:column;text-align:center;gap:10px;}
+}
+
+/* INVOICE LIST */
+.invoice-list{
+  margin-top:30px;
+  background:white;
+  padding:20px;
+  border-radius:8px;
+}
+.invoice-list h3{margin-bottom:15px;}
+.invoice-list table th, .invoice-list table td{text-align:center;}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="topbar">
+  <div>
+    <img src="images/logo.png" class="logo">
+    <span class="company-name">Inventory System</span>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav-buttons">
+  <button onclick="location.href='dashboard.html'">Dashboard</button>
+  <button onclick="location.href='sales.html'">POS</button>
+  <button onclick="location.href='quotation.html'">Quotation</button>
+  <button onclick="location.href='returned.html'">Returns</button>
+</div>
+
+<div class="content">
+
+<!-- INVOICE HEADER -->
+<div class="invoice-header">
+  <div>
+    <img src="images/logo.png">
+    <h2>Company Name</h2>
+    <p>company@email.com</p>
+  </div>
+  <div>
+    <h3>Invoice #: <span id="invoiceNumber"></span></h3>
+    <p>Date: <span id="invoiceDate"></span></p>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="invoice-form">
+  <select id="customerSelect"><option value="">Select Customer</option></select>
+  <select id="productSelect"><option value="">Select Product</option></select>
+  <input id="qtyInput" type="number" placeholder="Quantity" min="1">
+  <button onclick="addItem()">Add Item</button>
+</div>
+
+<!-- TABLE -->
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Qty</th>
+      <th>Total</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="invoiceTable"></tbody>
+</table>
+
+<div class="total">Total: $<span id="invoiceTotal">0.00</span></div>
+
+<div class="actions">
+  <button onclick="saveInvoice()">Save Invoice</button>
+  <button onclick="printInvoice()">Print</button>
+  <button onclick="exportPDF()">Export PDF</button>
+  <button onclick="emailInvoice()">Email Client</button>
+  <button onclick="loadQuotation()">Convert Quotation</button>
+  <button onclick="showInvoiceList()">View Issued Invoices</button>
+</div>
+
+<!-- ISSUED INVOICES -->
+<div class="invoice-list" id="invoiceList" style="display:none;">
+  <h3>Issued Invoices</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Invoice #</th>
+        <th>Customer</th>
+        <th>Date</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="invoiceListBody"></tbody>
+  </table>
+</div>
+
+</div>
+
+<script>
+let items=[];
+
+// AUTO INVOICE NUMBER
+function generateInvoiceNumber(){
+  let number=parseInt(localStorage.getItem("invoiceNumber")||1000);
+  number++;
+  localStorage.setItem("invoiceNumber",number);
+  return number;
+}
+document.getElementById("invoiceNumber").textContent=generateInvoiceNumber();
+document.getElementById("invoiceDate").textContent=new Date().toLocaleDateString();
+
+// GET DATA
+function getCustomers(){ return JSON.parse(localStorage.getItem("customers"))||[]; }
+function getProducts(){ return JSON.parse(localStorage.getItem("products"))||[]; }
+
+// POPULATE SELECTS
+function populateSelects(){
+  const cust=document.getElementById("customerSelect");
+  const prod=document.getElementById("productSelect");
+  cust.innerHTML='<option value="">Select Customer</option>';
+  getCustomers().forEach(c=>{ cust.innerHTML+=`<option value="${c.name}">${c.name}</option>`; });
+  prod.innerHTML='<option value="">Select Product</option>';
+  getProducts().forEach(p=>{ prod.innerHTML+=`<option value="${p.name}">${p.name} - $${p.price}</option>`; });
+}
+
+// ADD ITEM
+function addItem(){
+  const productName=document.getElementById("productSelect").value;
+  const qty=parseFloat(document.getElementById("qtyInput").value);
+  if(!productName||!qty){ alert("Select product and quantity"); return; }
+  const product=getProducts().find(p=>p.name===productName);
+  const total=parseFloat(product.price)*qty;
+  items.push({name:productName, price:parseFloat(product.price), qty:qty, total:total});
+  renderTable();
+  document.getElementById("qtyInput").value="";
+}
+
+// RENDER TABLE
+function renderTable(){
+  const tbody=document.getElementById("invoiceTable");
+  tbody.innerHTML="";
+  let sum=0;
+  items.forEach((item,index)=>{
+    sum+=item.total;
+    tbody.innerHTML+=`
+      <tr>
+        <td>${index+1}</td>
+        <td>${item.name}</td>
+        <td>$${item.price.toFixed(2)}</td>
+        <td>${item.qty}</td>
+        <td>$${item.total.toFixed(2)}</td>
+        <td><button class="delete-btn" onclick="deleteItem(${index})">Delete</button></td>
+      </tr>`;
+  });
+  document.getElementById("invoiceTotal").textContent=sum.toFixed(2);
+}
+
+// DELETE ITEM
+function deleteItem(i){ items.splice(i,1); renderTable(); }
+
+// REDUCE STOCK
+function reduceStock(){
+  const products=getProducts();
+  items.forEach(item=>{
+    let product=products.find(p=>p.name===item.name);
+    if(product){ product.stock-=item.qty; if(product.stock<0) product.stock=0; }
+  });
+  localStorage.setItem("products",JSON.stringify(products));
+}
+
+// SAVE INVOICE
+function saveInvoice(){
+  const customer=document.getElementById("customerSelect").value;
+  if(!customer){ alert("Select customer"); return; }
+  if(items.length===0){ alert("Add items first"); return; }
+  reduceStock();
+  const invoices=JSON.parse(localStorage.getItem("invoices"))||[];
+  const total=parseFloat(document.getElementById("invoiceTotal").textContent);
+  invoices.push({
+    number:document.getElementById("invoiceNumber").textContent,
+    customer:customer,
+    items:JSON.parse(JSON.stringify(items)),
+    total:total,
+    date:new Date().toLocaleString()
+  });
+  localStorage.setItem("invoices",JSON.stringify(invoices));
+  alert("Invoice saved!");
+  items=[];
+  renderTable();
+  populateSelects();
+  document.getElementById("invoiceNumber").textContent=generateInvoiceNumber();
+}
+
+// PRINT
+function printInvoice(){ window.print(); }
+
+// EXPORT PDF
+function exportPDF(){ window.print(); }
+
+// EMAIL
+function emailInvoice(){
+  const customer=document.getElementById("customerSelect").value;
+  const total=document.getElementById("invoiceTotal").textContent;
+  const subject="Invoice from Company";
+  const body=`Hello ${customer},\n\nPlease find your invoice.\nTotal: $${total}\n\nThank you`;
+  window.location.href=`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+// LOAD QUOTATION
+function loadQuotation(){
+  const quotations=JSON.parse(localStorage.getItem("quotations"))||[];
+  if(quotations.length===0){ alert("No quotations found"); return; }
+  items=quotations[quotations.length-1].items;
+  renderTable();
+}
+
+// SHOW ISSUED INVOICES
+function showInvoiceList(){
+  const invoices=JSON.parse(localStorage.getItem("invoices"))||[];
+  const tbody=document.getElementById("invoiceListBody");
+  tbody.innerHTML="";
+  if(invoices.length===0){ alert("No invoices found"); return; }
+  invoices.forEach((inv,index)=>{
+    tbody.innerHTML+=`
+      <tr>
+        <td>${index+1}</td>
+        <td>${inv.number}</td>
+        <td>${inv.customer}</td>
+        <td>${inv.date}</td>
+        <td>$${parseFloat(inv.total).toFixed(2)}</td>
+      </tr>`;
+  });
+  document.getElementById("invoiceList").style.display="block";
+}
+
+// INIT
+document.addEventListener("DOMContentLoaded",populateSelects);
+</script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📅 Calendar</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Calendar Container */
+    .content {
+      padding: 20px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .calendar-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    /* Calendar */
+    .calendar {
+      width: 100%;
+      max-width: 700px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 15px;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .calendar-header h3 {
+      margin: 0;
+    }
+
+    .calendar-header button {
+      background-color: #412594;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+
+    .calendar-grid div {
+      padding: 10px;
+      text-align: center;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .calendar-grid div:hover {
+      background-color: #f0f0f0;
+    }
+
+    .calendar-grid .today {
+      background-color: #412594;
+      color: #fff;
+    }
+
+    .calendar-grid .selected {
+      border: 2px solid #412594;
+    }
+
+    /* Notes Section */
+    .notes-container {
+      flex: 1;
+      max-width: 400px;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      height: fit-content;
+    }
+
+    .notes-container h3 {
+      margin-top: 0;
+    }
+
+    .notes-container textarea {
+      width: 100%;
+      height: 150px;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      resize: none;
+      margin-bottom: 10px;
+    }
+
+    .notes-container button {
+      background-color: #412594;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .calendar-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body class="dashboard-page">
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-page">
+
+<!-- MAIN NAVBAR -->
+<header class="main-navbar">
+
+<div class="nav-left">
+
+<nav class="main-menu">
+<a href="dashboard.html" class="menu-link active">Dashboard</a>
+<a href="products.html" class="menu-link">Products</a>
+<a href="customers.html" class="menu-link">Customers</a>
+</nav>
+
+</div>
+
+
+<div class="nav-right">
+
+<a href="sales.html" class="pos-btn">POS</a>
+
+<button id="themeToggle" class="icon-btn">🌙</button>
+
+<div class="notification-wrapper">
+<button id="notificationBtn" class="icon-btn">🔔</button>
+<span class="notification-count">3</span>
+</div>
+
+<div class="user-profile">
+<img src="images/user.png">
+<span>Admin</span>
+</div>
+
+</div>
+
+</header>
+
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <img src="images/logo.png" alt="Logo">
+  </div>
+
+  <nav class="sidebar-menu">
+    <ul>
+      <!-- Dashboard -->
+      <li><a href="dashboard.html" class="active">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7m-9 2v8m-4 4h16"/>
+        </svg>
+        Dashboard
+      </a></li>
+
+      <!-- Activities -->
+      <li class="menu-category">Activities</li>
+      <li><a href="expenses.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h6v6m2 0h3a2 2 0 002-2V7a2 2 0 00-2-2h-3m-2 0H9a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+        </svg>
+        Expenses
+      </a></li>
+      <li><a href="purchases.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-2 14H5L3 3z"/>
+        </svg>
+        Purchases
+      </a></li>
+      <li><a href="sales.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 6h18M3 14h18M3 18h18"/>
+        </svg>
+        Sales
+      </a></li>
+
+      <!-- Quotation & Invoice -->
+      <li class="menu-category">Documents</li>
+      <li><a href="quotation.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6M5 6h14v12H5V6z"/>
+        </svg>
+        Quotation
+      </a></li>
+      <li><a href="invoice.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6M5 6h14v12H5V6z"/>
+        </svg>
+        Invoice
+      </a></li>
+
+      <!-- People -->
+      <li class="menu-category">People</li>
+      <li><a href="suppliers.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
+        </svg>
+        Suppliers
+      </a></li>
+      <li><a href="customers.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1117.804 5.121 9 9 0 015.121 17.804z"/>
+        </svg>
+        Customers
+      </a></li>
+      <li><a href="employees.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zM6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+        </svg>
+        Employees
+      </a></li>
+
+      <!-- Inventory -->
+      <li class="menu-category">Inventory</li>
+      <li><a href="products.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V7a2 2 0 00-2-2H6a2 2 0 00-2 2v6"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 13h16v8H4v-8z"/>
+        </svg>
+        Products
+      </a></li>
+      <li><a href="returned.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v6h6M20 20v-6h-6"/>
+        </svg>
+        Returned Products
+      </a></li>
+
+      <!-- Other -->
+      <li class="menu-category">Other</li>
+      <li><a href="calendar.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3M16 7V3M3 11h18v10a2 2 0 01-2 2H5a2 2 0 01-2-2V11z"/>
+        </svg>
+        Calendar
+      </a></li>
+      <li><a href="projects.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
+        </svg>
+        Projects
+      </a></li>
+      <li><a href="deliveries.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18l-1.5 9h-15L3 7z"/>
+        </svg>
+        Deliveries
+      </a></li>
+      <li><a href="reports.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
+        </svg>
+        Reports
+      </a></li>
+
+      <!-- Settings -->
+      <li class="menu-category">Settings</li>
+      <li><a href="settings.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 16v-2m8-8h2M4 12H2m15.364-6.364l1.414-1.414M6.222 17.778l-1.414 1.414M17.778 17.778l1.414 1.414M6.222 6.222L4.808 4.808"/>
+        </svg>
+        Settings
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+
+
+
+
+<div class="content">
+  <h1 class="page-title">📅 Calendar</h1>
+
+  <div class="calendar-container">
+    <!-- Calendar -->
+    <div class="calendar">
+      <div class="calendar-header">
+        <button id="prevMonth">&#10094;</button>
+        <h3 id="monthYear"></h3>
+        <button id="nextMonth">&#10095;</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid">
+        <!-- Days will be injected here -->
+      </div>
+    </div>
+
+    <!-- Notes Section -->
+    <div class="notes-container">
+      <h3>Notes for <span id="selectedDateDisplay">Select a date</span></h3>
+      <textarea id="noteText" placeholder="Add your notes here..."></textarea>
+      <button onclick="saveNote()">Save Note</button>
+      <ul id="notesList"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  const calendarGrid = document.getElementById('calendarGrid');
+  const monthYear = document.getElementById('monthYear');
+  const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+  const notesList = document.getElementById('notesList');
+  const noteText = document.getElementById('noteText');
+
+  let today = new Date();
+  let currentMonth = today.getMonth();
+  let currentYear = today.getFullYear();
+  let selectedDate = null;
+
+  let notesDB = JSON.parse(localStorage.getItem('calendarNotes') || '{}');
+
+  const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+  function renderCalendar(month, year){
+    calendarGrid.innerHTML = '';
+    monthYear.textContent = `${months[month]} ${year}`;
+
+    // Days of week headers
+    const daysOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    for(let day of daysOfWeek){
+      let div = document.createElement('div');
+      div.textContent = day;
+      div.style.fontWeight = 'bold';
+      calendarGrid.appendChild(div);
+    }
+
+    let firstDay = new Date(year, month, 1).getDay();
+    let daysInMonth = new Date(year, month+1, 0).getDate();
+
+    // Blank slots for first day
+    for(let i=0; i<firstDay; i++){
+      let emptyDiv = document.createElement('div');
+      calendarGrid.appendChild(emptyDiv);
+    }
+
+    // Days
+    for(let day=1; day<=daysInMonth; day++){
+      let dayDiv = document.createElement('div');
+      dayDiv.textContent = day;
+
+      let fullDate = `${year}-${month+1}-${day}`;
+
+      if(today.getDate()===day && today.getMonth()===month && today.getFullYear()===year){
+        dayDiv.classList.add('today');
+      }
+
+      if(selectedDate === fullDate){
+        dayDiv.classList.add('selected');
+      }
+
+      dayDiv.addEventListener('click', () => selectDate(day, month, year));
+
+      calendarGrid.appendChild(dayDiv);
+    }
+  }
+
+  function selectDate(day, month, year){
+    selectedDate = `${year}-${month+1}-${day}`;
+    selectedDateDisplay.textContent = selectedDate;
+    noteText.value = notesDB[selectedDate] || '';
+    renderCalendar(currentMonth, currentYear);
+    renderNotes();
+  }
+
+  function saveNote(){
+    if(!selectedDate) return alert('Please select a date first');
+    notesDB[selectedDate] = noteText.value;
+    localStorage.setItem('calendarNotes', JSON.stringify(notesDB));
+    renderNotes();
+    alert('Note saved!');
+  }
+
+  function renderNotes(){
+    notesList.innerHTML = '';
+    for(let date in notesDB){
+      let li = document.createElement('li');
+      li.textContent = `${date}: ${notesDB[date]}`;
+      notesList.appendChild(li);
+    }
+  }
+
+  document.getElementById('prevMonth').addEventListener('click', () => {
+    currentMonth--;
+    if(currentMonth < 0){
+      currentMonth = 11;
+      currentYear--;
+    }
+    renderCalendar(currentMonth, currentYear);
+  });
+
+  document.getElementById('nextMonth').addEventListener('click', () => {
+    currentMonth++;
+    if(currentMonth > 11){
+      currentMonth = 0;
+      currentYear++;
+    }
+    renderCalendar(currentMonth, currentYear);
+  });
+
+  // Initial render
+  renderCalendar(currentMonth, currentYear);
+  renderNotes();
+</script>
+
+</body>
+</html>

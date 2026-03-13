@@ -1,0 +1,196 @@
+/* ==========================
+   BODY & TOPBAR
+========================== */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  color: #333;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-left .logo {
+  height: 40px;
+}
+
+.topbar-left .company-name {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.topbar-right button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.topbar-right button:hover {
+  background: #43a047;
+}
+
+/* ==========================
+   NAVIGATION BUTTONS
+========================== */
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+  margin: 20px auto;
+  max-width: 1200px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.nav-buttons button {
+  flex: 1;
+  min-width: 150px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+  background: #2196F3;
+  color: white;
+}
+
+.nav-buttons button:hover {
+  background: #1976D2;
+}
+
+/* ==========================
+   PAGE CONTENT
+========================== */
+.content {
+  padding: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-title {
+  margin-bottom: 20px;
+}
+
+/* ==========================
+   FORM
+========================== */
+.form-container {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.form-container .form-row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.form-container select,
+.form-container input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.form-container select:focus,
+.form-container input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 6px rgba(76,175,80,0.2);
+}
+
+.form-container button.primary {
+  padding: 10px 20px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.form-container button.primary:hover {
+  background: #43a047;
+}
+
+/* ==========================
+   PRODUCT TABLE
+========================== */
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.product-table th,
+.product-table td {
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.product-table th {
+  background: #f4f6f8;
+  font-weight: 600;
+}
+
+.product-table tr:hover {
+  background: #f9f9f9;
+}
+
+.total-row td {
+  font-weight: bold;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+@media (max-width:900px) {
+  .form-container .form-row {
+    flex-direction: column;
+  }
+  .form-container select,
+  .form-container input,
+  .form-container button.primary {
+    width: 100%;
+  }
+  .nav-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

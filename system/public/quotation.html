@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quotation | Inventory System</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6f8;
+margin:0;
+}
+
+/* HEADER */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#fff;
+padding:15px 20px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.logo{
+height:40px;
+}
+
+.company-name{
+font-size:20px;
+font-weight:bold;
+}
+
+/* NAV */
+
+.nav-buttons{
+display:flex;
+justify-content:center;
+gap:15px;
+margin:20px;
+flex-wrap:wrap;
+}
+
+.nav-buttons button{
+background:#412594;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* CONTENT */
+
+.content{
+max-width:1100px;
+margin:auto;
+padding:20px;
+}
+
+/* QUOTE HEADER */
+
+.quote-header{
+display:flex;
+justify-content:space-between;
+background:white;
+padding:20px;
+border-radius:8px;
+margin-bottom:20px;
+}
+
+.quote-header img{
+height:60px;
+}
+
+/* FORM */
+
+.quote-form{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+background:white;
+padding:20px;
+border-radius:8px;
+margin-bottom:20px;
+}
+
+.quote-form select,
+.quote-form input{
+padding:10px;
+border:1px solid #ccc;
+border-radius:6px;
+flex:1;
+min-width:150px;
+}
+
+.quote-form button{
+background:#412594;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+border-radius:8px;
+overflow:hidden;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #eee;
+}
+
+th{
+background:#412594;
+color:white;
+}
+
+.delete-btn{
+background:#e53935;
+color:white;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* TOTAL */
+
+.total{
+margin-top:15px;
+font-size:18px;
+font-weight:bold;
+}
+
+/* ACTION BUTTONS */
+
+.actions{
+margin-top:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.actions button{
+background:#412594;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+.quote-form{
+flex-direction:column;
+}
+
+.quote-header{
+flex-direction:column;
+text-align:center;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="topbar">
+
+<div>
+
+<img src="images/logo.png" class="logo">
+<span class="company-name">Inventory System</span>
+
+</div>
+
+</div>
+
+
+<!-- NAV -->
+
+<div class="nav-buttons">
+
+<button onclick="location.href='dashboard.html'">Dashboard</button>
+<button onclick="location.href='sales.html'">POS</button>
+<button onclick="location.href='invoice.html'">Invoices</button>
+<button onclick="location.href='returned.html'">Returns</button>
+
+</div>
+
+
+<div class="content">
+
+
+<!-- QUOTATION HEADER -->
+
+<div class="quote-header">
+
+<div>
+
+<img src="images/logo.png">
+
+<h2>Company Name</h2>
+<p>company@email.com</p>
+
+</div>
+
+<div>
+
+<h3>Quotation #: <span id="quoteNumber"></span></h3>
+<p>Date: <span id="quoteDate"></span></p>
+
+</div>
+
+</div>
+
+
+<!-- FORM -->
+
+<div class="quote-form">
+
+<select id="customerSelect">
+
+<option value="">Select Customer</option>
+
+</select>
+
+<select id="productSelect">
+
+<option value="">Select Product</option>
+
+</select>
+
+<input id="qtyInput" type="number" placeholder="Quantity" min="1">
+
+<button onclick="addItem()">Add Item</button>
+
+</div>
+
+
+<!-- TABLE -->
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>#</th>
+<th>Product</th>
+<th>Price</th>
+<th>Qty</th>
+<th>Total</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="quoteTable"></tbody>
+
+</table>
+
+
+<div class="total">
+
+Total: $<span id="quoteTotal">0.00</span>
+
+</div>
+
+
+<div class="actions">
+
+<button onclick="saveQuotation()">Save Quotation</button>
+
+<button onclick="convertToInvoice()">Convert to Invoice</button>
+
+<button onclick="printQuotation()">Print</button>
+
+<button onclick="exportPDF()">Export PDF</button>
+
+<button onclick="emailQuotation()">Email Client</button>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* DATA */
+
+let items=[];
+
+
+/* AUTO NUMBER */
+
+function generateQuoteNumber(){
+
+let number=localStorage.getItem("quoteNumber") || 2000;
+
+number++;
+
+localStorage.setItem("quoteNumber",number);
+
+return number;
+
+}
+
+document.getElementById("quoteNumber").textContent=generateQuoteNumber();
+document.getElementById("quoteDate").textContent=new Date().toLocaleDateString();
+
+
+/* GET DATA */
+
+function getCustomers(){
+return JSON.parse(localStorage.getItem("customers")) || [];
+}
+
+function getProducts(){
+return JSON.parse(localStorage.getItem("products")) || [];
+}
+
+
+/* LOAD SELECTS */
+
+function populateSelects(){
+
+let cust=document.getElementById("customerSelect");
+let prod=document.getElementById("productSelect");
+
+cust.innerHTML='<option value="">Select Customer</option>';
+
+getCustomers().forEach(c=>{
+cust.innerHTML+=`<option value="${c.name}">${c.name}</option>`;
+});
+
+prod.innerHTML='<option value="">Select Product</option>';
+
+getProducts().forEach(p=>{
+prod.innerHTML+=`<option value="${p.name}">${p.name} - $${p.price}</option>`;
+});
+
+}
+
+
+/* ADD ITEM */
+
+function addItem(){
+
+let productName=document.getElementById("productSelect").value;
+let qty=parseFloat(document.getElementById("qtyInput").value);
+
+if(!productName || !qty){
+alert("Select product and quantity");
+return;
+}
+
+let product=getProducts().find(p=>p.name===productName);
+
+let total=product.price*qty;
+
+items.push({
+name:productName,
+price:product.price,
+qty:qty,
+total:total
+});
+
+renderTable();
+
+document.getElementById("qtyInput").value="";
+
+}
+
+
+/* TABLE */
+
+function renderTable(){
+
+let tbody=document.getElementById("quoteTable");
+tbody.innerHTML="";
+
+let sum=0;
+
+items.forEach((item,index)=>{
+
+sum+=item.total;
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>${index+1}</td>
+<td>${item.name}</td>
+<td>${item.price}</td>
+<td>${item.qty}</td>
+<td>${item.total.toFixed(2)}</td>
+
+<td>
+
+<button class="delete-btn" onclick="deleteItem(${index})">Delete</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("quoteTotal").textContent=sum.toFixed(2);
+
+}
+
+
+/* DELETE */
+
+function deleteItem(i){
+items.splice(i,1);
+renderTable();
+}
+
+
+/* SAVE */
+
+function saveQuotation(){
+
+let customer=document.getElementById("customerSelect").value;
+
+if(!customer){
+alert("Select customer");
+return;
+}
+
+let quotations=JSON.parse(localStorage.getItem("quotations")) || [];
+
+quotations.push({
+number:document.getElementById("quoteNumber").textContent,
+customer:customer,
+items:items,
+date:new Date().toLocaleString()
+});
+
+localStorage.setItem("quotations",JSON.stringify(quotations));
+
+alert("Quotation saved");
+
+}
+
+
+/* CONVERT */
+
+function convertToInvoice(){
+
+localStorage.setItem("convertQuotation",JSON.stringify(items));
+
+window.location.href="invoice.html";
+
+}
+
+
+/* PRINT */
+
+function printQuotation(){
+window.print();
+}
+
+
+/* PDF */
+
+function exportPDF(){
+window.print();
+}
+
+
+/* EMAIL */
+
+function emailQuotation(){
+
+let customer=document.getElementById("customerSelect").value;
+let total=document.getElementById("quoteTotal").textContent;
+
+let subject="Quotation from Company";
+
+let body=`Hello ${customer},
+
+Here is your quotation.
+
+Total: $${total}
+
+Thank you`;
+
+window.location.href=`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+}
+
+
+/* INIT */
+
+document.addEventListener("DOMContentLoaded",populateSelects);
+
+</script>
+
+
+</body>
+</html>

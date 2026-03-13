@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Inventory System</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<!-- sidebar.html -->
+<div class="sidebar">
+  <h2>Inventory System</h2>
+  <nav>
+    <ul class="sidebar-menu">
+      <li><a href="dashboard.html" class="active">Dashboard</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="customers.html">Customers</a></li>
+      <li><a href="suppliers.html">Suppliers</a></li>
+      <li><a href="sales.html">Sales/POS</a></li>
+      <li><a href="invoice.html">Invoices</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+<button onclick="logout()" class="logout-btn">Logout</button>
+  </nav>
+</div>
+<div class="content">
+
+<h1 class="page-title">🧾 Invoices</h1>
+
+<div class="cards">
+
+<div class="card">
+<h3>Total Products</h3>
+<p id="totalProducts"></p>
+</div>
+
+<div class="card">
+<h3>Total Customers</h3>
+<p id="totalCustomers"></p>
+</div>
+
+<div class="card">
+<h3>Total Sales</h3>
+<p id="totalSales"></p>
+</div>
+
+</div>
+
+<canvas id="salesChart"></canvas>
+
+</div>
+
+<script src="js/database.js"></script>
+<script src="js/dashboard.js"></script>
+
+</body>
+</html>

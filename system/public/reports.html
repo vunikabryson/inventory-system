@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* --- Reports Page Styles --- */
+    .content { padding: 20px; max-width: 1200px; margin: auto; }
+    .page-title { font-size: 28px; margin-bottom: 20px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; align-items: center; }
+    .filters input, .filters select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+    .summary-cards { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; }
+    .card { flex: 1 1 180px; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: center; }
+    .card h3 { font-size: 16px; margin-bottom: 10px; color: #555; }
+    .card p { font-size: 22px; font-weight: bold; color: #412594; }
+    .charts { display: flex; flex-wrap: wrap; gap: 30px; margin-bottom: 30px; }
+    .chart-card { flex: 1 1 500px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .chart-card h4 { margin-bottom: 15px; font-size: 16px; color: #412594; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 40px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    table thead { background-color: #412594; color: #fff; }
+    table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    table tr:last-child td { border-bottom: none; }
+    .btn-export { background-color: #412594; color: #fff; padding: 8px 15px; border: none; border-radius: 6px; cursor: pointer; margin-bottom: 20px; }
+    @media(max-width: 768px) { .filters, .summary-cards, .charts { flex-direction: column; } }
+  </style>
+</head>
+<body class="dashboard-page">
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-page">
+
+<!-- MAIN NAVBAR -->
+<header class="main-navbar">
+
+<div class="nav-left">
+
+<nav class="main-menu">
+<a href="dashboard.html" class="menu-link active">Dashboard</a>
+<a href="products.html" class="menu-link">Products</a>
+<a href="customers.html" class="menu-link">Customers</a>
+</nav>
+
+</div>
+
+
+<div class="nav-right">
+
+<a href="sales.html" class="pos-btn">POS</a>
+
+<button id="themeToggle" class="icon-btn">🌙</button>
+
+<div class="notification-wrapper">
+<button id="notificationBtn" class="icon-btn">🔔</button>
+<span class="notification-count">3</span>
+</div>
+
+<div class="user-profile">
+<img src="images/user.png">
+<span>Admin</span>
+</div>
+
+</div>
+
+</header>
+
+
+<!-- SIDEBAR -->
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <img src="images/logo.png" alt="Logo">
+  </div>
+
+  <nav class="sidebar-menu">
+    <ul>
+      <!-- Dashboard -->
+      <li><a href="dashboard.html" class="active">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7m-9 2v8m-4 4h16"/>
+        </svg>
+        Dashboard
+      </a></li>
+
+      <!-- Activities -->
+      <li class="menu-category">Activities</li>
+      <li><a href="expenses.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h6v6m2 0h3a2 2 0 002-2V7a2 2 0 00-2-2h-3m-2 0H9a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+        </svg>
+        Expenses
+      </a></li>
+      <li><a href="purchases.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-2 14H5L3 3z"/>
+        </svg>
+        Purchases
+      </a></li>
+      <li><a href="sales.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 6h18M3 14h18M3 18h18"/>
+        </svg>
+        Sales
+      </a></li>
+
+      <!-- Quotation & Invoice -->
+      <li class="menu-category">Documents</li>
+      <li><a href="quotation.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6M5 6h14v12H5V6z"/>
+        </svg>
+        Quotation
+      </a></li>
+      <li><a href="invoice.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6M5 6h14v12H5V6z"/>
+        </svg>
+        Invoice
+      </a></li>
+
+      <!-- People -->
+      <li class="menu-category">People</li>
+      <li><a href="suppliers.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
+        </svg>
+        Suppliers
+      </a></li>
+      <li><a href="customers.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1117.804 5.121 9 9 0 015.121 17.804z"/>
+        </svg>
+        Customers
+      </a></li>
+      <li><a href="employees.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zM6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+        </svg>
+        Employees
+      </a></li>
+
+      <!-- Inventory -->
+      <li class="menu-category">Inventory</li>
+      <li><a href="products.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V7a2 2 0 00-2-2H6a2 2 0 00-2 2v6"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 13h16v8H4v-8z"/>
+        </svg>
+        Products
+      </a></li>
+      <li><a href="returned.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v6h6M20 20v-6h-6"/>
+        </svg>
+        Returned Products
+      </a></li>
+
+      <!-- Other -->
+      <li class="menu-category">Other</li>
+      <li><a href="calendar.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3M16 7V3M3 11h18v10a2 2 0 01-2 2H5a2 2 0 01-2-2V11z"/>
+        </svg>
+        Calendar
+      </a></li>
+      <li><a href="projects.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
+        </svg>
+        Projects
+      </a></li>
+      <li><a href="deliveries.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18l-1.5 9h-15L3 7z"/>
+        </svg>
+        Deliveries
+      </a></li>
+      <li><a href="reports.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
+        </svg>
+        Reports
+      </a></li>
+
+      <!-- Settings -->
+      <li class="menu-category">Settings</li>
+      <li><a href="settings.html">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 16v-2m8-8h2M4 12H2m15.364-6.364l1.414-1.414M6.222 17.778l-1.414 1.414M17.778 17.778l1.414 1.414M6.222 6.222L4.808 4.808"/>
+        </svg>
+        Settings
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+
+
+<div class="content">
+  <h1 class="page-title"> Reports Dashboard</h1>
+
+  <!-- Filters -->
+  <div class="filters">
+    <input type="date" id="reportStartDate">
+    <input type="date" id="reportEndDate">
+    <select id="filterCategory">
+      <option value="">All Categories</option>
+      <option value="sales">Sales</option>
+      <option value="expenses">Expenses</option>
+      <option value="purchases">Purchases</option>
+      <option value="returns">Returns</option>
+      <option value="deliveries">Deliveries</option>
+      <option value="projects">Projects</option>
+    </select>
+    <button class="btn-export" onclick="exportReport()">Export</button>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-cards">
+    <div class="card"><h3>Total Sales</h3><p id="totalSales">$0</p></div>
+    <div class="card"><h3>Total Expenses</h3><p id="totalExpenses">$0</p></div>
+    <div class="card"><h3>Total Purchases</h3><p id="totalPurchases">$0</p></div>
+    <div class="card"><h3>Completed Projects</h3><p id="completedProjects">0</p></div>
+    <div class="card"><h3>Pending Deliveries</h3><p id="pendingDeliveries">0</p></div>
+  </div>
+
+  <!-- Charts -->
+  <div class="charts">
+    <div class="chart-card"><h4>Sales Over Time</h4><canvas id="salesChart"></canvas></div>
+    <div class="chart-card"><h4>Expenses vs Revenue</h4><canvas id="expensesChart"></canvas></div>
+  </div>
+
+  <!-- Tables -->
+  <h2>Sales Details</h2>
+  <table><thead><tr><th>Date</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th><th>Customer</th></tr></thead><tbody id="salesTableBody"></tbody></table>
+
+  <h2>Expenses Details</h2>
+  <table><thead><tr><th>Date</th><th>Name</th><th>Type</th><th>Amount</th><th>Authorization</th></tr></thead><tbody id="expensesTableBody"></tbody></table>
+
+  <h2>Purchases Details</h2>
+  <table><thead><tr><th>Date</th><th>Product</th><th>Supplier</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody id="purchasesTableBody"></tbody></table>
+
+  <h2>Deliveries Details</h2>
+  <table><thead><tr><th>Date</th><th>Customer</th><th>Driver</th><th>Time</th><th>Received By</th><th>Phone</th></tr></thead><tbody id="deliveriesTableBody"></tbody></table>
+
+  <h2>Projects Details</h2>
+  <table><thead><tr><th>Project Name</th><th>Project Manager</th><th>Team Manager</th><th>Status</th></tr></thead><tbody id="projectsTableBody"></tbody></table>
+
+</div>
+
+<script>
+  // ---- Sample Data Arrays ----
+  const sales = [
+    {date:'2026-01-01', product:'Laptop', qty:3, price:1200, customer:'John'},
+    {date:'2026-01-05', product:'Mouse', qty:10, price:25, customer:'Alice'}
+  ];
+
+  const expenses = [
+    {date:'2026-01-02', name:'Office Rent', type:'Rent', amount:1000, auth:'Admin'},
+    {date:'2026-01-07', name:'Fuel', type:'Fuel', amount:200, auth:'Admin'}
+  ];
+
+  const purchases = [
+    {date:'2026-01-03', product:'Laptop', supplier:'Supplier A', qty:5, price:1100},
+    {date:'2026-01-06', product:'Mouse', supplier:'Supplier B', qty:20, price:20}
+  ];
+
+  const deliveries = [
+    {date:'2026-01-04', customer:'John', driver:'Mike', time:'10:00', received:'John', phone:'1234567890'}
+  ];
+
+  const projects = [
+    {name:'Website Redesign', pm:'Alice', tm:'Bob', status:'In Progress'},
+    {name:'Mobile App', pm:'Charlie', tm:'Diana', status:'Finished'}
+  ];
+
+  // ---- Populate Tables & Summary ----
+  function populateReports() {
+    // Sales Table
+    let salesBody = document.getElementById('salesTableBody'); salesBody.innerHTML='';
+    let totalSales = 0;
+    sales.forEach(s=>{
+      let row = `<tr>
+        <td>${s.date}</td>
+        <td>${s.product}</td>
+        <td>${s.qty}</td>
+        <td>$${s.price}</td>
+        <td>$${s.qty*s.price}</td>
+        <td>${s.customer}</td>
+      </tr>`;
+      salesBody.innerHTML += row;
+      totalSales += s.qty*s.price;
+    });
+    document.getElementById('totalSales').textContent = `$${totalSales}`;
+
+    // Expenses Table
+    let expensesBody = document.getElementById('expensesTableBody'); expensesBody.innerHTML='';
+    let totalExpenses = 0;
+    expenses.forEach(e=>{
+      let row = `<tr>
+        <td>${e.date}</td>
+        <td>${e.name}</td>
+        <td>${e.type}</td>
+        <td>$${e.amount}</td>
+        <td>${e.auth}</td>
+      </tr>`;
+      expensesBody.innerHTML += row;
+      totalExpenses += e.amount;
+    });
+    document.getElementById('totalExpenses').textContent = `$${totalExpenses}`;
+
+    // Purchases Table
+    let purchasesBody = document.getElementById('purchasesTableBody'); purchasesBody.innerHTML='';
+    let totalPurchases = 0;
+    purchases.forEach(p=>{
+      let row = `<tr>
+        <td>${p.date}</td>
+        <td>${p.product}</td>
+        <td>${p.supplier}</td>
+        <td>${p.qty}</td>
+        <td>$${p.price}</td>
+        <td>$${p.qty*p.price}</td>
+      </tr>`;
+      purchasesBody.innerHTML += row;
+      totalPurchases += p.qty*p.price;
+    });
+    document.getElementById('totalPurchases').textContent = `$${totalPurchases}`;
+
+    // Deliveries Table
+    let deliveriesBody = document.getElementById('deliveriesTableBody'); deliveriesBody.innerHTML='';
+    deliveries.forEach(d=>{
+      let row = `<tr>
+        <td>${d.date}</td>
+        <td>${d.customer}</td>
+        <td>${d.driver}</td>
+        <td>${d.time}</td>
+        <td>${d.received}</td>
+        <td>${d.phone}</td>
+      </tr>`;
+      deliveriesBody.innerHTML += row;
+    });
+    document.getElementById('pendingDeliveries').textContent = deliveries.length;
+
+    // Projects Table
+    let projectsBody = document.getElementById('projectsTableBody'); projectsBody.innerHTML='';
+    let completed = 0;
+    projects.forEach(p=>{
+      let row = `<tr>
+        <td>${p.name}</td>
+        <td>${p.pm}</td>
+        <td>${p.tm}</td>
+        <td>${p.status}</td>
+      </tr>`;
+      projectsBody.innerHTML += row;
+      if(p.status.toLowerCase() === 'finished') completed++;
+    });
+    document.getElementById('completedProjects').textContent = completed;
+  }
+
+  // ---- Initialize Charts Dynamically ----
+  function initCharts() {
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    new Chart(salesCtx, {
+      type: 'line',
+      data: {
+        labels: sales.map(s=>s.date),
+        datasets: [{
+          label:'Sales',
+          data: sales.map(s=>s.qty*s.price),
+          borderColor:'#412594',
+          backgroundColor:'rgba(65,37,148,0.2)',
+          tension:0.4
+        }]
+      },
+      options: { responsive:true }
+    });
+
+    const expensesCtx = document.getElementById('expensesChart').getContext('2d');
+    new Chart(expensesCtx, {
+      type:'bar',
+      data:{
+        labels: expenses.map(e=>e.date),
+        datasets:[
+          { label:'Expenses', data: expenses.map(e=>e.amount), backgroundColor:'rgba(220,53,69,0.7)' },
+          { label:'Revenue', data: sales.map(s=>s.qty*s.price), backgroundColor:'rgba(65,37,148,0.7)' }
+        ]
+      },
+      options:{ responsive:true }
+    });
+  }
+
+  function exportReport() { alert('Export feature coming soon!'); }
+
+  // Initialize page
+  populateReports();
+  initCharts();
+</script>
+</body>
+</html>

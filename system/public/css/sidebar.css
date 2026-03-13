@@ -1,0 +1,87 @@
+/* ==========================
+   SIDEBAR
+========================== */
+.sidebar {
+  width: 220px;                 /* Fixed width */
+  background: #fff;             /* White background */
+  border-right: 1px solid #ddd; /* subtle border */
+  height: 100vh;                /* Full height */
+  position: fixed;              /* Sticky on scroll */
+  top: 0;
+  left: 0;
+  padding-top: 20px;
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 99;
+}
+
+.sidebar nav ul.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav ul li.menu-category {
+  font-weight: 600;
+  font-size: 13px;           /* compact size */
+  color: #555;
+  padding: 12px 20px 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebar nav ul li a {
+  display: block;
+  color: #333;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  transition: 0.2s;
+  font-size: 14px;           /* good readable size */
+}
+
+.sidebar nav ul li a.active,
+.sidebar nav ul li a:hover {
+  background: #4CAF50;       /* green hover/active */
+  color: white;
+}
+
+/* icons spacing if using emojis or font-icons */
+.sidebar nav ul li a::before {
+  margin-right: 6px;
+}
+
+/* Scrollbar for long menus */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+/* Responsive: collapse sidebar on small screens */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-shadow: none;
+    padding-top: 10px;
+  }
+
+  .sidebar nav ul li.menu-category {
+    padding-left: 12px;
+  }
+
+  .sidebar nav ul li a {
+    padding-left: 12px;
+  }
+}
